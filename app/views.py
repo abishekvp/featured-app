@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
+from pytube import YouTube
 
 def index(request):
     if request.user.is_authenticated:return redirect("dashboard")
@@ -11,7 +12,6 @@ def ytvd(request):
     if request.method == 'POST':
         url = request.POST['url']
         if 'youtube.com' in url or 'youtu.be' in url:
-            from pytube import YouTube
             yt = YouTube(url)
             title = yt.title
             thumbnail = yt.thumbnail_url
