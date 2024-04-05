@@ -7,6 +7,21 @@ def index(request):
     if request.user.is_authenticated:return redirect("dashboard")
     else:return redirect('signin')
 
+def ytvd(request):
+    if request.method == 'POST':
+        url = request.POST['url']
+        if 'youtube.com' in url or 'youtu.be' in url:
+            from pytube import YouTube
+            yt = YouTube(url)
+            title = yt.title
+            thumbnail = yt.thumbnail_url
+            stream = yt.streams.filter(progressive=True).get_highest_resolution()
+            stream.download()
+            return render(request, 'ytd.html', {'title':title, 'thumbnail':thumbnail})
+        
+        else:messages.info(request, 'Invalid URL')
+    return render(request, 'ytd.html')
+
 def dashboard(request):
     if request.user.is_authenticated:return render(request,'dashboard.html')
     else:return redirect('signin')
@@ -29,8 +44,8 @@ def signup(request):
     else:return render(request,'signup.html')
 
 def signin(request):
-    if request.user.is_authenticated:return render(request,'index.html')
-    elif request.method == 'POST':    
+    if request.user.is_authenticated:return redirect('dashboard')
+    elif request.method == 'POST':
         username = request.POST["username"]
         password = request.POST["password"]
         if '@' in username:username = User.objects.get(email=username.lower()).username
@@ -38,7 +53,7 @@ def signin(request):
         if user:login(request, user)
         else:messages.info(request, 'User not found')
         return redirect("signin")
-    else:return render(request,'signin.html')
+    return render(request,'signin.html')
 
 def signout(request):
     if request.user.is_authenticated:logout(request)

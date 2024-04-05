@@ -1,8 +1,14 @@
 body{
-    background: #00000093;
+    background: #000000b6;
     text-align: center;
     color: #fff;
     font-family: 'Courier New', Courier, monospace;
+}
+nav ul{
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    width: 50%;
 }
 h1{
     font-size: 30px;

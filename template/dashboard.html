@@ -3,6 +3,11 @@
 {% block content %}
 <section class="dashboard">
     <a href="signout" class="signout_btn"><button>SignOut</button></a>
-    <h1>Welcome {{ request.user.username }}</h1>
+    <nav>
+        <ul>
+            <a href="{% url 'ytvd' %}"><li>YTVD</li></a>
+            <a href="{% url 'chat' %}"><li>Chat</li></a>
+        </ul>
+    </nav>
 </section>
 {% endblock %}
